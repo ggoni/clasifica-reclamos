@@ -12,6 +12,9 @@ st.subheader('1) Clasificar sólo Un comentario')
 
 comentario_input = st.text_area('Comentario:')
 
+if st.button("Clasifica"):
+    predice_frase(comentario_input)
+
 
 with open("modelo_vectorizador.pckl", 'rb') as archivo_in:
     vectorizador = pickle.load(archivo_in)
