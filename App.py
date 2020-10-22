@@ -3,6 +3,7 @@ import numpy as np
 import streamlit as st
 import pickle
 
+
 st.title('Clasificador de Feedback de Clientes')
 
 st.markdown(
@@ -12,22 +13,12 @@ st.subheader('1) Clasificar sólo Un comentario')
 
 comentario_input = st.text_area('Comentario:')
 
-if st.button("Clasifica"):
-    predice_frase(comentario_input)
-
 
 with open("modelo_vectorizador.pckl", 'rb') as archivo_in:
     vectorizador = pickle.load(archivo_in)
 
 with open("modelo_clasificador.pckl", 'rb') as archivo_in:
     clasificador = pickle.load(archivo_in)
-
-
-def predice_frase(frase: str):
-    frase = reemplaza_caracter_erroneo(frase).lower()
-    mapeo = vectorizador.transform([frase])
-    label = clasificador.predict(mapeo).astype(int)
-    return diccionario_inv[int(label)]
 
 
 def reemplaza_caracter_erroneo(palabra):
@@ -48,14 +39,25 @@ def reemplaza_caracter_erroneo(palabra):
     palabra = palabra.replace('&#252;', 'u')
     palabra = palabra.replace('&#176;', 'º')
     palabra = palabra.replace('caros', 'caro')
-
     return palabra
 
 
 diccionario_inv = {0: 'Precio', 1: 'Producto',
                    2: 'Sala/vendedores', 3: 'Otros'}
 
-y = predice_frase(comentario_input)
+
+def predice_frase(frase: str):
+    frase = reemplaza_caracter_erroneo(frase).lower()
+    mapeo = vectorizador.transform([frase])
+    label = clasificador.predict(mapeo).astype(int)
+    return diccionario_inv[int(label)]
+
+
+if st.button("Clasifica"):
+    y = predice_frase(comentario_input)
+
+
+#y = predice_frase(comentario_input)
 
 mensaje = 'Se clasifica como: '+y.upper()
 
