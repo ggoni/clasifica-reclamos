@@ -56,6 +56,8 @@ def predice_frase(frase: str):
 if st.button("Clasifica"):
     y = predice_frase(comentario_input)
 
+else:
+    st.write("En espera")
 
 #y = predice_frase(comentario_input)
 
