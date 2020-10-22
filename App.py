@@ -53,6 +53,8 @@ def predice_frase(frase: str):
     return diccionario_inv[int(label)]
 
 
+y = ''
+
 if st.button("Clasifica"):
     y = predice_frase(comentario_input)
 
